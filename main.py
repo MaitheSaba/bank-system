@@ -1,32 +1,32 @@
 import transactions
 import users
+import accounts as acc
 
-menu = """
-Escolha uma opção:
-    1 - Sacar
-    2 - Depositar
-    3 - Ver extrato
-    4 - Criar usuário
-    5 - Criar conta corrente
-    6 - Ver usuários
-    0 - Sair
-=>"""
+def menu():
+    print("MENU".center(20, "="))
+    option = input("""1 - Sacar\n2 - Depositar\n3 - Ver extrato\n4 - Criar usuário\n5 - Criar conta corrente\n6 - Ver usuários\n7 - Buscar contas\n0 - Sair\n=>     """)
+    return option
+
 
 while True:
     balance = transactions.getBalance()
-    option = input(menu)
+    option = menu()
+
     if option == '1':
         print(f"Saldo disponível: R$ {balance:.2f}")
         amount = float(input("Informe o valor do saque: ")) 
         print(transactions.withdrawal(amount))
+
     elif option == '2':
         amount = float(input("Informe quanto deseja depositar: "))
         print(transactions.deposit(amount))
+
     elif option == '3':
         bank_statement = transactions.getTransactions()
         print("EXTRATO".center(21, "="))
         print("Não foram realizadas transações"if not bank_statement else bank_statement)
         print(f"Saldo disponível: R${balance:.2f}")
+
     elif option == '4':
         cpf = int(input("Informe o CPF (somente números): "))
         if users.getUserByCpf(cpf):
@@ -43,8 +43,16 @@ while True:
             address = f"{street}, {number} - {additional} - {district} - {city}/{state}"
             users.setUser(name=name, birthdate=birthdate, cpf=cpf, address=address)
             print("Usuário cadastrado com sucesso!")
+
     elif option == '5':
-        break
+        cpf = int(input("Informe o CPF do titular (somente números): "))
+        account_holder = users.getUserByCpf(cpf)
+        if account_holder:
+            acc.setAccount(account_holder)
+            print("Conta cadastrada com sucesso!")
+        else:
+            print("CPF para o titular não encontrado.")
+
     elif option == '6':
         all_users = users.getUsers()
         for i,user in enumerate(all_users):
@@ -57,6 +65,21 @@ while True:
                 print(f"""Nome: {user["name"]}\nData de nascimento: {user["birthdate"]}\nCPF: {user["cpf"]}\nEndereço: {user["address"]}""")
             else:
                 print("Usuário não encontrado")
+
+    elif option == '7':
+        cpf = int(input("Informe o CPF do titular(somente números) ou '0' para ver todos registros: "))
+        if cpf == 0:
+            accounts = acc.getAccounts()
+        else:
+            account_holder = users.getUserByCpf(cpf)    
+            accounts = acc.getAccountsByUser(cpf) if account_holder else None
+        if(accounts):
+            for account in accounts:
+                print("====================")
+                print(f"Agência: {account["agency"]} - C/C: {account["account_number"]} - Titular: {account["account_holder"]["name"]}")
+        else:
+            print("Nenhuma conta encontrada.")
+
     elif option == '0':
         break
     else:
