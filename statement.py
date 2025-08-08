@@ -1,39 +1,41 @@
-balance = 0.0
-bank_statement = ""
+class Balance:
+    def __init__(self):
+        self._balance = 0.0
+        self._statement = ""
 
-def setDeposit(amount):
-    """
-    Adds the given amount to the balance and logs the deposit
+    def getBalance(self):
+        """
+        Returns the current account balance
 
-    Aumenta o saldo, depositando o valor recebido (amount), e registra o depósito
-    """
-    global balance, bank_statement
-    balance += amount
-    bank_statement += f"Depósito registrado: R${amount:.2f}\n"
+        Retorna o saldo atual
+        """
+        return self._balance
 
-def setWithdrawal(amount):
-    """
-    Subtracts the given amount from the balance and logs the withdrawal
+    def setDeposit(self, amount):
+        """
+        Adds the given amount to the balance and logs the deposit
 
-    Diminui o saldo, 'sacando' o valor recebido (amount), e registra o saque
-    """
-    global balance, bank_statement
-    balance -= amount
-    bank_statement += f"Saque registrado: R${amount:.2f}\n"
+        Aumenta o saldo, depositando o valor recebido (amount), e registra o depósito
+        """
+        self._balance += amount
+        self._statement += f"Depósito registrado: R${amount:.2f}\n"
+        return self._balance
 
-def getBankStatement():
-    """
-    Returns the full account statement
+    def setWithdrawal(self, amount):
+        """
+        Subtracts the given amount from the balance and logs the withdrawal
 
-    Retorna o extrato completo
-    """
-    return bank_statement
+        Diminui o saldo, 'sacando' o valor recebido (amount), e registra o saque
+        """
+        self._balance -= amount
+        self._statement += f"Saque registrado: R${amount:.2f}\n"
+        return self._balance
 
-def getBalance():
-    """
-    Returns the current account balance
+    def getBankStatement(self):
+        """
+        Returns the full account statement
 
-    Retorna o saldo atual
-    """
-    return balance
+        Retorna o extrato completo
+        """
+        return self._statement
 

@@ -1,41 +1,40 @@
-import statement
+from statement import Balance
 
 MAX_DAILY_WITHDRAWAL = 3
 limit = 500
-withdrawal_count = 0
+balance = Balance()
 
-def withdrawal(amount):
+def withdrawal(*, amount, withdrawal_count):
     """
     Validates the requested withdrawal amount
 
     Valida o pedido de saque recebido (amount)
     """
-    global withdrawal_count
-    balance = statement.getBalance()
-    if(balance < amount):
-        return "Saldo insuficiente. Saque não efetuado."
-    elif(amount > limit):
-        return "Limite insuficiente. Saque não efetuado."
-    elif(withdrawal_count == MAX_DAILY_WITHDRAWAL):
-        return "Máximo de saques diários atingido. Saque não efetuado."
-    elif(amount <= 0):
-        return "Saque deve ser maior que R$0.00. Saque não efetuado."
+    current_balance = balance.getBalance()
+    if current_balance < amount:
+        return "Saldo insuficiente. Saque não efetuado.", current_balance, withdrawal_count
+    elif amount > limit:
+        return "Limite insuficiente. Saque não efetuado.", current_balance, withdrawal_count
+    elif withdrawal_count == MAX_DAILY_WITHDRAWAL:
+        return "Máximo de saques diários atingido. Saque não efetuado.", current_balance, withdrawal_count
+    elif amount <= 0:
+        return "Saque deve ser maior que R$0.00. Saque não efetuado.", current_balance, withdrawal_count
     else:
         withdrawal_count += 1
-        statement.setWithdrawal(amount)
-        return f"Sacando R${amount:.2f}"
+        new_balance = balance.setWithdrawal(amount)
+        return f"Sacando R${amount:.2f}", new_balance, withdrawal_count
 
-def deposit(amount):
+def deposit(amount, /):
     """
     Validates the requested deposit amount
 
     Valida o pedido de depósito recebido(amount)
     """
-    if(amount <= 0):
-        return "Depósito cancelado. Somente valores maiores que 0"
+    if amount <= 0:
+        return "Depósito cancelado. Somente valores maiores que 0", balance.getBalance()
     else:
-        statement.setDeposit(amount)
-        return f"Depositando R${amount:.2f}"
+        new_balance = balance.setDeposit(amount)
+        return f"Depositando R${amount:.2f}", new_balance
 
 def getBalance():
     """
@@ -43,7 +42,7 @@ def getBalance():
 
     Retorna o saldo atual
     """
-    return statement.getBalance()
+    return balance.getBalance()
 
 def getTransactions():
     """
@@ -51,5 +50,5 @@ def getTransactions():
 
     Retorna o extrato completo
     """
-    bank_statement = statement.getBankStatement()
+    bank_statement = balance.getBankStatement()
     return f"{bank_statement}"

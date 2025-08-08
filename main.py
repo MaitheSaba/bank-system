@@ -7,6 +7,7 @@ def menu():
     option = input("""1 - Sacar\n2 - Depositar\n3 - Ver extrato\n4 - Criar usuário\n5 - Criar conta corrente\n6 - Ver usuários\n7 - Buscar contas\n0 - Sair\n=>     """)
     return option
 
+withdrawal_count = 0
 
 while True:
     balance = transactions.getBalance()
@@ -15,11 +16,13 @@ while True:
     if option == '1':
         print(f"Saldo disponível: R$ {balance:.2f}")
         amount = float(input("Informe o valor do saque: ")) 
-        print(transactions.withdrawal(amount))
+        message, new_balance, withdrawal_count = transactions.withdrawal(amount=amount, withdrawal_count=withdrawal_count)
+        print(message, f"| Saldo: R${new_balance}")
 
     elif option == '2':
         amount = float(input("Informe quanto deseja depositar: "))
-        print(transactions.deposit(amount))
+        message, new_balance = transactions.deposit(amount)
+        print(message, f"| Saldo: R${new_balance}")
 
     elif option == '3':
         bank_statement = transactions.getTransactions()
@@ -73,7 +76,7 @@ while True:
         else:
             account_holder = users.getUserByCpf(cpf)    
             accounts = acc.getAccountsByUser(cpf) if account_holder else None
-        if(accounts):
+        if accounts:
             for account in accounts:
                 print("====================")
                 print(f"Agência: {account["agency"]} - C/C: {account["account_number"]} - Titular: {account["account_holder"]["name"]}")
