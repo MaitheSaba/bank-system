@@ -4,7 +4,7 @@ import accounts as acc
 
 def menu():
     print("MENU".center(20, "="))
-    option = input("""1 - Sacar\n2 - Depositar\n3 - Ver extrato\n4 - Criar usuário\n5 - Criar conta corrente\n6 - Ver usuários\n7 - Buscar contas\n0 - Sair\n=>     """)
+    option = input("""1 - Sacar\n2 - Depositar\n3 - Ver extrato\n4 - Criar usuário\n5 - Criar conta corrente\n6 - Ver usuários\n7 - Buscar contas\n0 - Sair\n=> """)
     return option
 
 withdrawal_count = 0
@@ -58,16 +58,19 @@ while True:
 
     elif option == '6':
         all_users = users.getUsers()
-        for i,user in enumerate(all_users):
-            print(f"{i + 1} - {user["name"]}")
-        details = int(input("Escolha uma opção para ver detalhes ou '0' para sair: "))
-        if details != 0:
-            user = users.getUserByIndex(details - 1)
-            if user:
-                print("==============================")
-                print(f"""Nome: {user["name"]}\nData de nascimento: {user["birthdate"]}\nCPF: {user["cpf"]}\nEndereço: {user["address"]}""")
-            else:
-                print("Usuário não encontrado")
+        if all_users:
+            for i,user in enumerate(all_users):
+                print(f"{i + 1} - {user["name"]}")
+            details = int(input("Escolha uma opção para ver detalhes ou '0' para sair: "))
+            if details != 0:
+                user = users.getUserByIndex(details - 1)
+                if user:
+                    print("==============================")
+                    print(f"""Nome: {user["name"]}\nData de nascimento: {user["birthdate"]}\nCPF: {user["cpf"]}\nEndereço: {user["address"]}""")
+                else:
+                    print("Usuário não encontrado")
+        else:
+            print("Nenhum usuário cadastrado")
 
     elif option == '7':
         cpf = int(input("Informe o CPF do titular(somente números) ou '0' para ver todos registros: "))
