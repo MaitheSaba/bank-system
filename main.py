@@ -25,10 +25,11 @@ while True:
         print(message, f"| Saldo: R${new_balance:.2f}")
 
     elif option == '3':
-        bank_statement = transactions.getTransactions()
+        bank_statement = ""
+        bank_statement, new_balance = transactions.getTransactions(balance, bank_statement=bank_statement)
         print("EXTRATO".center(21, "="))
         print("Não foram realizadas transações"if not bank_statement else bank_statement)
-        print(f"Saldo disponível: R${balance:.2f}")
+        print(f"Saldo disponível: R${new_balance:.2f}")
 
     elif option == '4':
         cpf = int(input("Informe o CPF (somente números): "))

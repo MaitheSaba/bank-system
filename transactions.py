@@ -44,11 +44,12 @@ def getBalance():
     """
     return balance.getBalance()
 
-def getTransactions():
+def getTransactions(current_balance, /, *, bank_statement):
     """
     Returns the full account statement
 
     Retorna o extrato completo
     """
+    current_balance = balance.getBalance()
     bank_statement = balance.getBankStatement()
-    return f"{bank_statement}"
+    return f"{bank_statement}", current_balance
