@@ -17,12 +17,12 @@ while True:
         print(f"Saldo disponível: R$ {balance:.2f}")
         amount = float(input("Informe o valor do saque: ")) 
         message, new_balance, withdrawal_count = transactions.withdrawal(amount=amount, withdrawal_count=withdrawal_count)
-        print(message, f"| Saldo: R${new_balance}")
+        print(message, f"| Saldo: R${new_balance:.2f}")
 
     elif option == '2':
         amount = float(input("Informe quanto deseja depositar: "))
         message, new_balance = transactions.deposit(amount)
-        print(message, f"| Saldo: R${new_balance}")
+        print(message, f"| Saldo: R${new_balance:.2f}")
 
     elif option == '3':
         bank_statement = transactions.getTransactions()
