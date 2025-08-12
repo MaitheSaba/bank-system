@@ -66,8 +66,15 @@ while True:
             if details != 0:
                 user = users.getUserByIndex(details - 1)
                 if user:
+                    user_accounts = acc.getAccountsByUser(user["cpf"])
                     print("==============================")
                     print(f"""Nome: {user["name"]}\nData de nascimento: {user["birthdate"]}\nCPF: {user["cpf"]}\nEndereço: {user["address"]}""")
+                    print("----- CONTAS DO USUÁRIO -----")
+                    if user_accounts:
+                        for account in user_accounts:
+                            print(f"Agência: {account["agency"]} - C/C: {account["account_number"]} - Titular: {account["account_holder"]["name"]}")
+                    else:
+                        print("Esse usuário ainda não possui contas vinculadas")
                 else:
                     print("Usuário não encontrado")
         else:
