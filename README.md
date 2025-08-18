@@ -27,6 +27,9 @@ Added features to create and view users, and to create and view accounts (relate
   - Agency number (0001), sequential account number and account holder (user)
   - Functions: create, get all and get by user (through CPF)
 
+## Version 3 (commited on August 18, 2025)
+No new features/rules, but object-oriented programming was implemented.
+
 #
 # 🪙 Sistema bancário
 ## Primeira versão (commit em 29 de julho de 2025)
@@ -56,3 +59,6 @@ Adição das funcionalidades de criar e ver usuários, criar e ver contas (assoc
   - Mesmo usuário pode ter várias contas
   - Agência fixa (0001), número da conta sequencial e usuário titular
   - Funções: criar, ver todas e pesquisar por CPF do usuário titular
+
+## Terceira versão (commit em 18 de agosto de 2025)
+Não foram desenvolvidas novas funcionalidades ou regras, mas foi feita a implementação de programação orientada a objetos
